@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Prices</title>
+    <style>
+        .center {
+            text-align: center;
+        }
+
+        .verticalLine {
+            height: 100%;
+            border-right: 1px solid #000900;
+            position: absolute;
+            right: 40%;
+        }
+
+        .centertable {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div>
+        <h1>Cryptocurrency Symbol: <span data-th-text="${symbol}"></span></h1>
+    </div>
+    <hr>
+    <div class="left">
+        <div style="width:100%;"> 
+            <div style="float:left; width:50%;">
+                <h2>Prices:</h2>
+                <h2>
+                    <span data-th-text="${crypto.getCryptoPrice.getCurrencyName}"></span>
+                    <span data-th-text="${crypto.getCryptoPrice.getPrice}"></span>
+                </h2>
+
+            <!-- </div>
+            <hr class="verticalLine">
+            <div style="float:right; width:40%;">
+                <h2>Add more currencies:</h2>
+                <form method="POST" action="/cart">
+                    <input readonly type="hidden" name="userName" data-th-value="${userName}">
+                    <input readonly type="hidden" name="cartStr" data-th-value="${cartStr}">
+                    <input type="text" name="currency" placeholder="add currency">
+                    <button type="submit">Add</button>
+                </form>
+            </div> -->
+
+        </div>
+    </div>
+</body>
+</html>

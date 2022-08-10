@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Crypto Compare Web Application</title>
+        <style>
+            .center-header {
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="center-header">
+            <h1>Stay up to date with the latest Crypto pricing</h1>
+            <hr>
+        </div>
+
+        <div class="center-header">
+            <form method="GET" action="/price">
+                <input type="text" name="symbol" maxlength="3" placeholder="crypto symbol">
+                <input type="text" name="currency" maxlength="3" placeholder="currency">
+                <br>
+                <br>
+                <button type="submit">Get Price</button>
+            </form>
+        </div>
+
+
+    </body>
+</html>
