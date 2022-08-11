@@ -8,7 +8,7 @@ public class Crypto {
     public String getCryptoSymbol() {
         return cryptoSymbol;
     }
-    public void setCyptoSymbol(String cyptoSymbol) {
+    public void setCryptoSymbol(String cyptoSymbol) {
         this.cryptoSymbol = cyptoSymbol;
     }
     public CryptoPrice getCryptoPrice() {
