@@ -25,16 +25,16 @@ public class CryptoController {
         // converts all input to uppercase, search and match in uppercase to prevent case mismatch
         symbol = symbol.toUpperCase();
         currency = currency.toUpperCase();
+        
 
         // calls service to perform the API call and data extraction 
         Crypto crypto = cryptoSvc.getCrypto(symbol, currency);
         
-        // System.out.println(crypto.getCryptoSymbol());
-        // System.out.println(crypto.getCryptoPrice().getCurrencyName());
-        // System.out.println(crypto.getCryptoPrice().getPrice());
+        System.out.println(crypto.getCryptoSymbol());
+        System.out.println(crypto.getPrices().get(0).getCurrencyName());
+        System.out.println(crypto.getPrices().get(0).getPrice());
 
         // data injection into thymeleaf html
-        model.addAttribute("symbol", symbol);
         model.addAttribute("crypto", crypto);
         
         return "price";

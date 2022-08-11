@@ -2,7 +2,10 @@ package vttp2022.ssf.practicecc.services;
 
 import java.io.Reader;
 import java.io.StringReader;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.RequestEntity;
@@ -31,15 +34,16 @@ public class CryptoService {
 
         // instantiate and declaration of variables
         Crypto crypto = new Crypto();
-        CryptoPrice cryptoPrice = new CryptoPrice();
+        
         String payloadStr;
+        List<CryptoPrice> prices = new LinkedList<>();
 
         System.out.println("Getting Crypto prices from CryptoCompare.com");
 
         try {
             String url = UriComponentsBuilder.fromUriString(URL)
                             .queryParam("fsym", URLEncoder.encode(symbol, "UTF-8"))
-                            .queryParam("tsyms", URLEncoder.encode(currency, "UTF-8"))
+                            .queryParam("tsyms", URLDecoder.decode(currency, "UTF-8"))
                             .queryParam("appid", key)
                             .toUriString();
 
@@ -56,29 +60,54 @@ public class CryptoService {
             payloadStr = resp.getBody();
             // prints out the payload 
             System.out.println("payload from API: " + payloadStr);
+            // prints out the query string
+            System.out.println("query string: " + currency);
 
         } catch (Exception ex) {
             System.err.printf("Error: %s\n", ex.getMessage());
             return crypto;
         }
         
+        // spit the query string into individual currency request stored in an array
+        String[] currencyArr = currency.split(",");
+
         // read payload (jsonstr) and convert to jsonobject
         Reader strReader = new StringReader(payloadStr);
         JsonReader jsonReader = Json.createReader(strReader);
         JsonObject payloadJsonObject = jsonReader.readObject();
 
-        //System.out.println("Currency = " + currency);
-        // String price = payloadJsonObject.getString(currency);
-        // System.out.println(payloadJsonObject.get(currency).toString());
+        // // System.out.println("Currency = " + currency);
+        // // String price = payloadJsonObject.getString(currency);
+        // // System.out.println(payloadJsonObject.get(currency).toString());
         
         // get the object (decimal) from jsonobject and convert it to string, parse it to float
-        Float price = Float.parseFloat(payloadJsonObject.get(currency).toString());
 
-        // build the model
-        crypto.setCyptoSymbol(symbol);
-        cryptoPrice.setCurrencyName(currency);
-        cryptoPrice.setPrice(price);
-        crypto.setCryptoPrice(cryptoPrice);
+        for (int i = 0; i < currencyArr.length; i++) {
+            
+            CryptoPrice cryptoPrice = new CryptoPrice();
+            cryptoPrice.setCurrencyName(currencyArr[i]);
+            cryptoPrice.setPrice(Float.parseFloat(payloadJsonObject.get(currencyArr[i]).toString()));
+            prices.add(cryptoPrice);
+            // System.out.println(currencyArr[i]);
+            // System.out.println(cryptoPrice.getCurrencyName());
+            // System.out.println(cryptoPrice.getPrice());
+            // System.out.println();
+        }
+        
+        // // build the model
+        // crypto.setCryptoSymbol(symbol);
+        // cryptoPrice.setCurrencyName(currency);
+        // cryptoPrice.setPrice(price);
+        // crypto.setCryptoPrice(cryptoPrice);
+        
+        // System.out.println();
+
+        // for (int i = 0; i < prices.size(); i++) {
+        //     System.out.println(prices.get(i).getCurrencyName());
+        // }
+        
+        crypto.setCryptoSymbol(symbol);
+        crypto.setPrices(prices);
 
         return crypto;
     }

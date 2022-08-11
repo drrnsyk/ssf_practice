@@ -27,17 +27,22 @@
 
 <body>
     <div>
-        <h1>Cryptocurrency Symbol: <span data-th-text="${symbol}"></span></h1>
+        <h1>Cryptocurrency Symbol: <span data-th-text="${crypto.getCryptoSymbol}"></span></h1>
     </div>
     <hr>
     <div class="left">
         <div style="width:100%;"> 
             <div style="float:left; width:50%;">
                 <h2>Prices:</h2>
-                <h2>
-                    <span data-th-text="${crypto.getCryptoPrice.getCurrencyName}"></span>
-                    <span data-th-text="${crypto.getCryptoPrice.getPrice}"></span>
-                </h2>
+                <table>
+                    <tr data-th-each="c: ${crypto.getPrices}">
+                        <!-- <td>
+                            <img data-th-src="@{http://openweathermap.org/img/wn/{icon}@2x.png(icon=${l.icon})}" alt="">
+                        </td> -->
+                        <td data-th-text="${c.getCurrencyName}"></td>
+                        <td data-th-text="${c.getPrice}"></td>
+                    </tr>
+                </table>
 
             <!-- </div>
             <hr class="verticalLine">
